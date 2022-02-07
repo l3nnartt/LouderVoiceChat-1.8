@@ -1,0 +1,10 @@
+{
+  "uuid": "%uuid%",
+  "name": "Name of your addon",
+  "mainClass": "path.to.main",
+  "description": "This is my first addon!",
+  "version": 1,
+  "author": "YOUR_NAME",
+  "category": 1,
+  "icon": "http://link-to-icon.net/icon64x64.png"
+}

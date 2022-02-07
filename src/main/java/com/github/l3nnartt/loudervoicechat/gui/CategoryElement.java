@@ -1,4 +1,4 @@
-package com.github.l3nnartt.gui;
+package com.github.l3nnartt.loudervoicechat.gui;
 
 import net.labymod.settings.SettingsCategory;
 

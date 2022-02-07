@@ -1,4 +1,4 @@
-package com.github.l3nnartt.updater;
+package com.github.l3nnartt.loudervoicechat.updater;
 
 import java.io.File;
 import java.io.IOException;

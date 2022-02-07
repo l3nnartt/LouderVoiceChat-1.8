@@ -1,6 +1,6 @@
-package com.github.l3nnartt.updater;
+package com.github.l3nnartt.loudervoicechat.updater;
 
-import com.github.l3nnartt.LouderVoiceChat;
+import com.github.l3nnartt.loudervoicechat.LouderVoiceChat;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.io.File;

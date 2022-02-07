@@ -1,4 +1,4 @@
-package com.github.l3nnartt.updater;
+package com.github.l3nnartt.loudervoicechat.updater;
 
 import com.mojang.authlib.exceptions.AuthenticationException;
 import net.labymod.main.LabyMod;

@@ -1,9 +1,9 @@
-package com.github.l3nnartt;
+package com.github.l3nnartt.loudervoicechat;
 
-import com.github.l3nnartt.gui.ButtonElement;
-import com.github.l3nnartt.gui.VolumeGui;
-import com.github.l3nnartt.updater.Authenticator;
-import com.github.l3nnartt.updater.UpdateChecker;
+import com.github.l3nnartt.loudervoicechat.gui.ButtonElement;
+import com.github.l3nnartt.loudervoicechat.gui.VolumeGui;
+import com.github.l3nnartt.loudervoicechat.updater.Authenticator;
+import com.github.l3nnartt.loudervoicechat.updater.UpdateChecker;
 import net.labymod.addon.AddonLoader;
 import net.labymod.addons.voicechat.VoiceChat;
 import net.labymod.api.LabyModAddon;

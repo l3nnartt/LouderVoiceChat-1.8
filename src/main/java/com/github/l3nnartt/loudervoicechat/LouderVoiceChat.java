@@ -51,7 +51,7 @@ public class LouderVoiceChat extends LabyModAddon {
                 return true;
             }
         })));
-        System.out.println("[LouderVoiceChat] Addon erfolgreich aktiviert");
+        System.out.println("[LouderVoiceChat] Addon success activated");
     }
 
     @Override

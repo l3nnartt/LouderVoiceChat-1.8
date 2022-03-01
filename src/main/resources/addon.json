@@ -1,9 +1,9 @@
 {
-  "uuid": "%uuid%",
+  "uuid": "31bfa9e-2757-4805-835f-aa38018336e4",
   "name": "LouderVoiceChat",
   "mainClass": "com.github.l3nnartt.loudervoicechat.LouderVoiceChat",
   "description": "LouderVoiceChat allows you to adjust the Volume of Players up to 500%",
-  "version": 1,
+  "version": 2,
   "author": "L3nnart_",
   "category": 2,
   "icon": "http://dl.lennartloesche.de/loudervoicechat/logo.png"

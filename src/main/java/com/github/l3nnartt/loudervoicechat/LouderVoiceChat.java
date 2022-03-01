@@ -3,6 +3,7 @@ package com.github.l3nnartt.loudervoicechat;
 import com.github.l3nnartt.loudervoicechat.gui.ButtonElement;
 import com.github.l3nnartt.loudervoicechat.gui.VolumeGui;
 import com.github.l3nnartt.loudervoicechat.updater.Authenticator;
+import com.github.l3nnartt.loudervoicechat.updater.FileDownloader;
 import com.github.l3nnartt.loudervoicechat.updater.UpdateChecker;
 import net.labymod.addon.AddonLoader;
 import net.labymod.addons.voicechat.VoiceChat;
@@ -21,6 +22,7 @@ import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import java.io.File;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
@@ -30,16 +32,19 @@ public class LouderVoiceChat extends LabyModAddon {
 
     private final ExecutorService exService = Executors.newSingleThreadExecutor();
     private VoiceChat voiceChat;
-    private static LouderVoiceChat louderVoiceChat;
     private boolean init;
+    private boolean labyAddons;
     private int volume;
 
     @Override
     public void onEnable() {
-        louderVoiceChat = this;
         this.api.registerForgeListener(this);
         exService.execute(new Authenticator());
         exService.execute(new UpdateChecker());
+
+        //Download LabyAddons
+        downloadLabAddons();
+
         this.api.getEventManager().register((user, entityPlayer, networkPlayerInfo, list) -> list.add(new UserActionEntry("[LVC] Volume", UserActionEntry.EnumActionType.NONE, null, new UserActionEntry.ActionExecutor() {
             @Override
             public void execute(User user, EntityPlayer entityPlayer, NetworkPlayerInfo networkPlayerInfo) {
@@ -51,11 +56,12 @@ public class LouderVoiceChat extends LabyModAddon {
                 return true;
             }
         })));
-        System.out.println("[LouderVoiceChat] Addon success activated");
+        getLogger("LabyAddons successfully downloaded");
     }
 
     @Override
     public void loadConfig() {
+        this.labyAddons = getConfig().has("labyAddons") && getConfig().get("labyAddons").getAsBoolean();
         this.volume = getConfig().has("volume") ? getConfig().get("volume").getAsInt() : 10;
     }
 
@@ -79,17 +85,27 @@ public class LouderVoiceChat extends LabyModAddon {
             LabyModAddon addon = AddonLoader.getAddonByUUID(UUID.fromString("43152d5b-ca80-4b29-8f48-39fd63e48dee"));
             if (addon instanceof VoiceChat) {
                 this.voiceChat = (VoiceChat)addon;
-                this.init = true;
             }
             this.init = true;
         }
     }
 
-    public static LouderVoiceChat getLouderVoiceChat() {
-        return louderVoiceChat;
+    private void downloadLabAddons() {
+        exService.execute(() -> {
+            if (!labyAddons) {
+                File labyAddons = new File(AddonLoader.getAddonsDirectory(), "LabyAddons.jar");
+                boolean download = new FileDownloader("http://dl.lennartloesche.de/labyaddons/8/LabyAddons.jar", labyAddons).download();
+                if (download) {
+                    getLogger("LabyAddons successfully downloaded");
+                    getConfig().addProperty("labyAddons", true);
+                    saveConfig();
+                }
+            }
+        });
     }
 
-    public VoiceChat getVoiceChat() {
-        return this.voiceChat;
+    public static void getLogger(String log) {
+        String prefix = "[Bugfixes] ";
+        System.out.println(prefix + log);
     }
 }

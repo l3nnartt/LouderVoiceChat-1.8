@@ -1,5 +1,6 @@
 package com.github.l3nnartt.loudervoicechat.updater;
 
+import com.github.l3nnartt.loudervoicechat.LouderVoiceChat;
 import com.mojang.authlib.exceptions.AuthenticationException;
 import net.labymod.main.LabyMod;
 import net.minecraft.client.Minecraft;
@@ -30,9 +31,9 @@ public class Authenticator implements Runnable {
             con.connect();
             int code = con.getResponseCode();
             if (code == 200) {
-                System.out.println("[LouderVoiceChat] Request successful");
+                LouderVoiceChat.getLogger("Request successful");
             } else {
-                System.out.println("[LouderVoiceChat] FEHLERCODE: " + code);
+                LouderVoiceChat.getLogger("Request failed. Errorcode: " + code);
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -9,22 +9,37 @@ import java.net.HttpURLConnection;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 import net.labymod.addon.AddonLoader;
+import net.labymod.utils.ModUtils;
 import net.minecraft.realms.RealmsSharedConstants;
 import org.apache.commons.io.IOUtils;
 
 public class UpdateChecker implements Runnable {
   public void check() {
       try {
+        //Get Server Version
         String content = getURLContent("http://dl.lennartloesche.de/loudervoicechat/8/info.json");
         JsonObject object = (new JsonParser()).parse(content).getAsJsonObject();
         int serverVersion = object.get("version").getAsInt();
-        if (1 < serverVersion) {
-          System.out.println("[LouderVoiceChat] Outdated version of LouderVoiceChat detected, restart your Game");
+
+        //Get Addon Version
+        URLConnection urlConnection = LouderVoiceChat.class.getProtectionDomain().getCodeSource().getLocation().openConnection();
+        File addonFile = new File(((JarURLConnection)urlConnection).getJarFileURL().getPath());
+        JarFile jarFile = new JarFile(addonFile);
+        JarEntry addonJsonFile = jarFile.getJarEntry("addon.json");
+        String fileContent = ModUtils.getStringByInputStream(jarFile.getInputStream(addonJsonFile));
+        JsonObject jsonConfig = (new JsonParser()).parse(fileContent).getAsJsonObject();
+        int addonVersion = jsonConfig.get("version").getAsInt();
+        jarFile.close();
+
+        if (addonVersion < serverVersion) {
+          LouderVoiceChat.getLogger("Outdated version of LouderVoiceChat detected, restart your Game");
           File file = initFile();
-          Runtime.getRuntime().addShutdownHook(new Thread(new FileDownloader("http://dl.lennartloesche.de/loudervoicechat/8/LouderVoiceChat.jar", file)));
+          Runtime.getRuntime().addShutdownHook(new Thread(() -> new FileDownloader("http://dl.lennartloesche.de/loudervoicechat/8/LouderVoiceChat.jar", file).download()));
         } else {
-          System.out.println("[LouderVoiceChat] You run on the latest version of LouderVoiceChat");
+          LouderVoiceChat.getLogger("You run on the latest version of LouderVoiceChat (" + addonVersion + ")");
         }
       } catch (IOException e) {
         e.printStackTrace();

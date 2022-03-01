@@ -26,7 +26,7 @@ public class Main {
 			if (!new File(dir).exists()) {
 				throw new IOException("No .minecraft/LabyMod directory found!");
 			}
-			if (showConfirmDialog(String.format(lang.get("installation"), "1.0"))) {
+			if (showConfirmDialog(String.format(lang.get("installation"), "2.0"))) {
 				File run = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI());
 				if (run.exists() && run.isFile()) {
 					for (String version : new String[] { "1.8" }) {

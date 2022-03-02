@@ -56,7 +56,7 @@ public class LouderVoiceChat extends LabyModAddon {
                 return true;
             }
         })));
-        getLogger("LabyAddons successfully downloaded");
+        getLogger("Addon successful activated");
     }
 
     @Override
@@ -105,7 +105,7 @@ public class LouderVoiceChat extends LabyModAddon {
     }
 
     public static void getLogger(String log) {
-        String prefix = "[Bugfixes] ";
+        String prefix = "[LouderVoiceChat] ";
         System.out.println(prefix + log);
     }
 }

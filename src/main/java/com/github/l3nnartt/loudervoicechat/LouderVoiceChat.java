@@ -56,7 +56,6 @@ public class LouderVoiceChat extends LabyModAddon {
 
     @Override
     public void loadConfig() {
-        this.labyAddons = getConfig().has("labyAddons") && getConfig().get("labyAddons").getAsBoolean();
         this.volume = getConfig().has("volume") ? getConfig().get("volume").getAsInt() : 10;
     }
 

@@ -22,6 +22,7 @@ import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+
 import java.io.File;
 import java.util.List;
 import java.util.UUID;
@@ -35,6 +36,11 @@ public class LouderVoiceChat extends LabyModAddon {
     private boolean init;
     private boolean labyAddons;
     private int volume;
+
+    public static void getLogger(String log) {
+        String prefix = "[LouderVoiceChat] ";
+        System.out.println(prefix + log);
+    }
 
     @Override
     public void onEnable() {
@@ -84,7 +90,7 @@ public class LouderVoiceChat extends LabyModAddon {
         if (!this.init) {
             LabyModAddon addon = AddonLoader.getAddonByUUID(UUID.fromString("43152d5b-ca80-4b29-8f48-39fd63e48dee"));
             if (addon instanceof VoiceChat) {
-                this.voiceChat = (VoiceChat)addon;
+                this.voiceChat = (VoiceChat) addon;
             }
             this.init = true;
         }
@@ -102,10 +108,5 @@ public class LouderVoiceChat extends LabyModAddon {
                 }
             }
         });
-    }
-
-    public static void getLogger(String log) {
-        String prefix = "[LouderVoiceChat] ";
-        System.out.println(prefix + log);
     }
 }

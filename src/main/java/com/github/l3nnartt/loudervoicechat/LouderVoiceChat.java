@@ -83,6 +83,7 @@ public class LouderVoiceChat extends LabyModAddon {
             }
             this.init = true;
         }
+    }
 
     public static void getLogger(String log) {
         String prefix = "[LouderVoiceChat] ";

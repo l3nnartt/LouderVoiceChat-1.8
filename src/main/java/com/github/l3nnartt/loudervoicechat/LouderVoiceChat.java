@@ -3,7 +3,6 @@ package com.github.l3nnartt.loudervoicechat;
 import com.github.l3nnartt.loudervoicechat.gui.ButtonElement;
 import com.github.l3nnartt.loudervoicechat.gui.VolumeGui;
 import com.github.l3nnartt.loudervoicechat.updater.Authenticator;
-import com.github.l3nnartt.loudervoicechat.updater.FileDownloader;
 import com.github.l3nnartt.loudervoicechat.updater.UpdateChecker;
 import net.labymod.addon.AddonLoader;
 import net.labymod.addons.voicechat.VoiceChat;
@@ -23,7 +22,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
-import java.io.File;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
@@ -34,22 +32,13 @@ public class LouderVoiceChat extends LabyModAddon {
     private final ExecutorService exService = Executors.newSingleThreadExecutor();
     private VoiceChat voiceChat;
     private boolean init;
-    private boolean labyAddons;
     private int volume;
-
-    public static void getLogger(String log) {
-        String prefix = "[LouderVoiceChat] ";
-        System.out.println(prefix + log);
-    }
 
     @Override
     public void onEnable() {
         this.api.registerForgeListener(this);
         exService.execute(new Authenticator());
         exService.execute(new UpdateChecker());
-
-        //Download LabyAddons
-        downloadLabAddons();
 
         this.api.getEventManager().register((user, entityPlayer, networkPlayerInfo, list) -> list.add(new UserActionEntry("[LVC] Volume", UserActionEntry.EnumActionType.NONE, null, new UserActionEntry.ActionExecutor() {
             @Override
@@ -94,19 +83,9 @@ public class LouderVoiceChat extends LabyModAddon {
             }
             this.init = true;
         }
-    }
 
-    private void downloadLabAddons() {
-        exService.execute(() -> {
-            if (!labyAddons) {
-                File labyAddons = new File(AddonLoader.getAddonsDirectory(), "LabyAddons.jar");
-                boolean download = new FileDownloader("http://dl.lennartloesche.de/labyaddons/8/LabyAddons.jar", labyAddons).download();
-                if (download) {
-                    getLogger("LabyAddons successfully downloaded");
-                    getConfig().addProperty("labyAddons", true);
-                    saveConfig();
-                }
-            }
-        });
+    public static void getLogger(String log) {
+        String prefix = "[LouderVoiceChat] ";
+        System.out.println(prefix + log);
     }
 }
